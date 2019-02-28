@@ -10,52 +10,119 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        InputStream is = null;
-        try {
-            is = new FileInputStream("./file/a_example.txt");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-
-        String line = null;
-        try {
-            line = buf.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        StringBuilder sb = new StringBuilder();
-        
-		while(line != null){
-   			sb.append(line).append("\n");
-            try {
-                line = buf.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-
-        String file = sb.toString();
+        //soluce_a();
+        //soluce_b();
+        soluce_c();
+        //soluce_d();
+        //soluce_e();
+    }
+    public static void soluce_a() {
+        Parser p = new Parser();
+        String file = p.loadFile("a_example.txt");
         String[] ligne = file.split("\n");
 
-        Parser p = new Parser();
         ArrayList<Photo> A = p.parse(file);
 
         Collections.sort(A, new Comparator<Photo>(){
-        	public int compare(Photo p1, Photo p2){
-        		return (p1.getNtag() > p2.getNtag()) ? 1 : 0;
-        	}
+            public int compare(Photo p1, Photo p2){
+                return (p1.getNtag() > p2.getNtag()) ? 1 : 0;
+            }
         } );
         ArrayList<Photo> photos = p.parse(file);
-        Slide s1 = new Slide(photos.get(0));
-        Slide s2 = new Slide(photos.get(3));
-        Slide s3 = new Slide(photos.get(1),photos.get(2));
+        printSoluce(stupid(photos),"soluce_a.txt");
+    }
+    public static void soluce_b(){
+        Parser p = new Parser();
+        String file = p.loadFile("b_lovely_landscapes.txt");
+        String[] ligne = file.split("\n");
+
+        ArrayList<Photo> A = p.parse(file);
+
+        Collections.sort(A, new Comparator<Photo>(){
+            public int compare(Photo p1, Photo p2){
+                return (p1.getNtag() > p2.getNtag()) ? 1 : 0;
+            }
+        } );
+        ArrayList<Photo> photos = p.parse(file);
+        printSoluce(stupid(photos),"soluce_b.txt");
+    }
+    public static void soluce_c(){
+        Parser p = new Parser();
+        String file = p.loadFile("c_memorable_moments.txt");
+        String[] ligne = file.split("\n");
+
+        ArrayList<Photo> A = p.parse(file);
+
+        Collections.sort(A, new Comparator<Photo>(){
+            public int compare(Photo p1, Photo p2){
+                return (p1.getNtag() > p2.getNtag()) ? 1 : 0;
+            }
+        } );
+        ArrayList<Photo> photos = p.parse(file);
+        printSoluce(stupid(photos),"soluce_c.txt");
+    }
+    public static void soluce_d(){
+        Parser p = new Parser();
+        String file = p.loadFile("d_pet_pictures.txt");
+        String[] ligne = file.split("\n");
+
+        ArrayList<Photo> A = p.parse(file);
+
+        Collections.sort(A, new Comparator<Photo>(){
+            public int compare(Photo p1, Photo p2){
+                return (p1.getNtag() > p2.getNtag()) ? 1 : 0;
+            }
+        } );
+        ArrayList<Photo> photos = p.parse(file);
+        printSoluce(stupid(photos),"soluce_d.txt");
+    }
+    public static void soluce_e(){
+        Parser p = new Parser();
+        String file = p.loadFile("e_shiny_selfies.txt");
+        String[] ligne = file.split("\n");
+
+        ArrayList<Photo> A = p.parse(file);
+
+        Collections.sort(A, new Comparator<Photo>(){
+            public int compare(Photo p1, Photo p2){
+                return (p1.getNtag() > p2.getNtag()) ? 1 : 0;
+            }
+        } );
+        ArrayList<Photo> photos = p.parse(file);
+        printSoluce(stupid(photos),"soluce_e.txt");
+    }
+
+    public static void printSoluce(String s,String name) {
+        PrintWriter out = null;
+        try {
+            out = new PrintWriter("file/"+name);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        out.println(s);
+        out.close();
+    }
+    public static String stupid(ArrayList<Photo> photos) {
+        int i = 0;
+        Photo lastVertical = null;
         Slideshow show = new Slideshow();
-        show.addSlide(s1);
-        show.addSlide(s2);
-        show.addSlide(s3);
-        System.out.println(show.generateOutput());
+        for (i=0;i<photos.size();i++) {
+            Photo photo = photos.get(i);
+            if (photo.isHorizontal()) {
+                Slide s = new Slide(photo);
+                show.addSlide(s);
+            }
+            else {
+                if (lastVertical==null) {
+                    lastVertical = photo;
+                }
+                else {
+                    Slide s = new Slide(lastVertical,photo);
+                    lastVertical = null;
+                    show.addSlide(s);
+                }
+            }
+        }
+        return show.generateOutput();
     }
 }
