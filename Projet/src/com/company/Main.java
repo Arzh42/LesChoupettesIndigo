@@ -5,6 +5,8 @@ import java.util.*;
 
 package com.company;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -32,5 +34,14 @@ public class Main {
         		return p1.getNtag() > p2.getNtag();
         	}
         } );
+        ArrayList<Photo> photos = p.parse(file);
+        Slide s1 = new Slide(photos.get(0));
+        Slide s2 = new Slide(photos.get(3));
+        Slide s3 = new Slide(photos.get(1),photos.get(2));
+        Slideshow show = new Slideshow();
+        show.addSlide(s1);
+        show.addSlide(s2);
+        show.addSlide(s3);
+        System.out.println(show.generateOutput());
     }
 }
