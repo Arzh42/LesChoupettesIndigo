@@ -12,7 +12,6 @@ public class Slideshow {
     }
     public String generateOutput() {
         String s = String.valueOf(slides.size());
-        System.out.println(s);
         for (int i=0;i<slides.size();i++) {
             s = s + "\n" + slides.get(i).toString();
         }
