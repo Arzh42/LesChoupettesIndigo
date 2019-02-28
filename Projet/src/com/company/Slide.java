@@ -63,4 +63,16 @@ public class Slide {
     public void setTag(ArrayList<String> tag) {
         this.tag = tag;
     }
+
+    public int countTagEqual(Slide slide) {
+        int count = 0;
+        for (String tag:this.tag) {
+            for (String tag2:slide.getTag()) {
+                if (tag.equals(tag2)) {
+                    count ++;
+                }
+            }
+        }
+        return count;
+    }
 }
